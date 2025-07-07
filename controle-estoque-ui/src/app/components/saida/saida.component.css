@@ -1,0 +1,235 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+  min-height: 100vh;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container > h2 {
+  margin: 0 0 30px 0;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 300;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 2px;
+}
+
+form {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #ff416c;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(255, 65, 108, 0.1);
+}
+
+input[type="text"]:read-only {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+input[type="text"]::placeholder {
+  color: #adb5bd;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input[type="number"]:focus {
+  outline: none;
+  border-color: #ff416c;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(255, 65, 108, 0.1);
+}
+
+input[type="number"]::placeholder {
+  color: #adb5bd;
+}
+
+.container_button {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.container_button > button {
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 120px;
+}
+
+.container_button > button:first-child {
+  background-color: #6c757d;
+  color: white;
+}
+
+.container_button > button:first-child:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+}
+
+.container_button > button:last-child {
+  background-color: #dc3545;
+  color: white;
+}
+
+.container_button > button:last-child:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
+.container_button > button:active {
+  transform: translateY(0);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .container > h2 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+  }
+
+  form {
+    padding: 30px;
+    margin-bottom: 15px;
+  }
+
+  .container_button {
+    gap: 12px;
+  }
+
+  .container_button > button {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .container > h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  form {
+    padding: 25px;
+    margin-bottom: 15px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-size: 0.8rem;
+  }
+
+  input[type="text"] {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  input[type="number"] {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .container_button {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .container_button > button {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .container > h2 {
+    font-size: 1.5rem;
+  }
+
+  form {
+    padding: 20px;
+  }
+
+  input[type="text"] {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  input[type="number"] {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .container_button > button {
+    padding: 10px 15px;
+    font-size: 0.8rem;
+  }
+}

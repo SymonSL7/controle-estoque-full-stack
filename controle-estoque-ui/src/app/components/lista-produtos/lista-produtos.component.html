@@ -1,0 +1,73 @@
+<div class="container__lista-produtos">
+  <div class="titulo-lista">
+    <h1>LISTA DE PRODUTOS</h1>
+  </div>
+
+  <div class="botoes">
+    <button class="cadastrar" (click)="abrirCadastroProduto()">CADASTRAR</button>
+    <button class="entrada" (click)="abrirEntrada()">ENTRADA</button>
+    <button class="saida" (click)="abrirSaida()">SAÍDA</button>
+  </div>
+
+  <!-- Tabela para desktop -->
+  <div class="tabela-container">
+    <table class="tabela-produtos">
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Nome Produto</th>
+          <th>Quantidade</th>
+          <th>R$ Compra</th>
+          <th>R$ Venda</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let produto of produtos"
+            class="produto-row"
+            [ngClass]="{
+              'estoque-baixo': produto.quantidade <= 5 && produto.quantidade > 0,
+              'estoque-zero': produto.quantidade === 0
+            }">
+          <td>{{ produto.sku }}</td>
+          <td>{{ produto.nome }}</td>
+          <td>{{ produto.quantidade }}</td>
+          <td>{{ produto.precoCompra | currency:'BRL':'symbol':'1.2-2' }}</td>
+          <td>{{ produto.precoVenda | currency:'BRL':'symbol':'1.2-2' }}</td>
+          <td class="acoes">
+            <button class="btn-editar" (click)="editarProduto(produto)">Editar</button>
+            <button class="btn-excluir" (click)="excluirProduto(produto)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Cards para mobile -->
+  <div class="produtos-cards">
+    <div class="produto-card" *ngFor="let produto of produtos">
+      <div class="produto-card-header">
+        <span class="produto-sku">SKU: {{ produto.sku }}</span>
+        <span class="produto-nome">{{ produto.nome }}</span>
+      </div>
+      <div class="produto-detalhes">
+        <div class="produto-detalhe">
+          <span class="produto-detalhe-label">Quantidade:</span>
+          <span class="produto-detalhe-valor">{{ produto.quantidade }}</span>
+        </div>
+        <div class="produto-detalhe">
+          <span class="produto-detalhe-label">Preço Compra:</span>
+          <span class="produto-detalhe-valor">R$ {{ produto.precoCompra | currency:'BRL':'symbol':'1.2-2' }}</span>
+        </div>
+        <div class="produto-detalhe">
+          <span class="produto-detalhe-label">Preço Venda:</span>
+          <span class="produto-detalhe-valor">R$ {{ produto.precoVenda | currency:'BRL':'symbol':'1.2-2' }}</span>
+        </div>
+      </div>
+      <div class="produto-acoes">
+        <button class="btn-editar" (click)="editarProduto(produto)">Editar</button>
+        <button class="btn-excluir" (click)="excluirProduto(produto)">Excluir</button>
+      </div>
+    </div>
+  </div>
+</div>

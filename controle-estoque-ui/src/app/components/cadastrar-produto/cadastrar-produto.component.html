@@ -1,0 +1,31 @@
+<div class="container">
+  <h2>CADASTRAR</h2>
+  <form>
+    <div class="form-group">
+      <label for="sku">SKU:</label>
+      <input id="sku" type="number" [(ngModel)]="data.sku" name="sku" placeholder="Digite o SKU do produto">
+    </div>
+
+    <div class="form-group">
+      <label for="nome">NOME:</label>
+      <input id="nome" type="text" [(ngModel)]="data.nome" name="nome" placeholder="Digite o nome do produto">
+    </div>
+
+    <div class="form-group">
+      <label for="precoCompra">PREÇO COMPRA:</label>
+      <input id="precoCompra" type="number" [(ngModel)]="data.precoCompra" name="precoCompra" placeholder="R$ 0,00" step="0.01" min="0">
+    </div>
+
+    <div class="form-group">
+      <label for="precoVenda">PREÇO VENDA:</label>
+      <input id="precoVenda" type="number" [(ngModel)]="data.precoVenda" name="precoVenda" placeholder="R$ 0,00" step="0.01" min="0">
+    </div>
+
+  </form>
+
+  <div class="container_button">
+    <button (click)="onNoClick()">Cancelar</button>
+    <button (click)="onSalvar()">Salvar</button>
+  </div>
+</div>
+

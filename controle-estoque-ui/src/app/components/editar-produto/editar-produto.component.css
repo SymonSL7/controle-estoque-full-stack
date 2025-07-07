@@ -1,0 +1,212 @@
+.editar-produto-container {
+  padding: 20px;
+  min-width: 400px;
+  background: #e3f2fd;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-editar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-field {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input[type="text"], input[type="number"] {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+  outline: none;
+  border-color: #667eea;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+input[type="text"]::placeholder, input[type="number"]::placeholder {
+  color: #adb5bd;
+}
+
+input[type="text"]:disabled, input[type="number"]:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+mat-dialog-actions {
+  margin-top: 30px;
+  gap: 15px;
+  justify-content: center;
+}
+
+h2[mat-dialog-title] {
+  margin: 0 0 30px 0;
+  color: #1976d2;
+  font-size: 2rem;
+  font-weight: 300;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+button[mat-raised-button] {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 120px;
+}
+
+button[mat-raised-button]:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+button[mat-button] {
+  background-color: #6c757d;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 120px;
+}
+
+button[mat-button]:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+}
+
+button[mat-raised-button]:active, button[mat-button]:active {
+  transform: translateY(0);
+}
+
+/* Garantir que o fundo do diálogo seja claro */
+::ng-deep .mat-mdc-dialog-container {
+  background-color: #e3f2fd !important;
+}
+
+::ng-deep .mat-mdc-dialog-surface {
+  background-color: #e3f2fd !important;
+}
+
+/* Estilo para o conteúdo do diálogo */
+mat-dialog-content {
+  background-color: #e3f2fd;
+  padding: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .editar-produto-container {
+    padding: 15px;
+    min-width: 350px;
+  }
+
+  .form-editar {
+    padding: 25px;
+  }
+
+  h2[mat-dialog-title] {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  input[type="text"], input[type="number"] {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  button[mat-raised-button], button[mat-button] {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .editar-produto-container {
+    padding: 10px;
+    min-width: 300px;
+  }
+
+  .form-editar {
+    padding: 20px;
+  }
+
+  h2[mat-dialog-title] {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-size: 0.8rem;
+  }
+
+  input[type="text"], input[type="number"] {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  mat-dialog-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button[mat-raised-button], button[mat-button] {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}

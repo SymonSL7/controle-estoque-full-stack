@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>ENTRADA</h2>
+  <form>
+    <div class="form-group">
+      <label for="sku">SKU:</label>
+      <input id="sku" type="number" [(ngModel)]="data.sku" (ngModelChange)="buscarProdutoPorSku()" name="sku" placeholder="Digite o SKU do produto">
+    </div>
+
+    <div class="form-group">
+      <label for="nome">NOME:</label>
+      <input id="nome" type="text" [(ngModel)]="data.nome" name="nome" readonly placeholder="Nome do produto (preenchido automaticamente)">
+    </div>
+
+    <div class="form-group">
+      <label for="quantidade">QUANTIDADE:</label>
+      <input id="quantidade" type="number" [(ngModel)]="data.quantidade" name="quantidade" placeholder="Digite a quantidade" min="1">
+    </div>
+  </form>
+
+  <div class="container_button">
+    <button (click)="onNoClick()">Cancelar</button>
+    <button (click)="onSalvar()">Salvar</button>
+  </div>
+</div>
+
+

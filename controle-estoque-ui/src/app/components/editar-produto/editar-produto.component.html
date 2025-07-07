@@ -1,0 +1,38 @@
+<div class="editar-produto-container">
+  <h2 mat-dialog-title>EDITAR PRODUTO</h2>
+
+  <mat-dialog-content>
+    <form class="form-editar">
+      <div class="form-group">
+        <label for="sku">SKU:</label>
+        <input id="sku" type="number" [(ngModel)]="produto.sku" name="sku" required>
+      </div>
+
+      <div class="form-group">
+        <label for="nome">NOME:</label>
+        <input id="nome" type="text" [(ngModel)]="produto.nome" name="nome" required>
+      </div>
+
+      <div class="form-group">
+        <label for="quantidade">QUANTIDADE:</label>
+        <input id="quantidade" type="number" [value]="produto.quantidade" disabled>
+        <small style="color: #6c757d; font-size: 0.8rem; margin-top: 5px; display: block;">Quantidade só pode ser alterada através de entrada/saída</small>
+      </div>
+
+      <div class="form-group">
+        <label for="precoCompra">PREÇO COMPRA:</label>
+        <input id="precoCompra" type="number" [(ngModel)]="produto.precoCompra" name="precoCompra" step="0.01" min="0" required>
+      </div>
+
+      <div class="form-group">
+        <label for="precoVenda">PREÇO VENDA:</label>
+        <input id="precoVenda" type="number" [(ngModel)]="produto.precoVenda" name="precoVenda" step="0.01" min="0" required>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onSave()">Salvar</button>
+  </mat-dialog-actions>
+</div>
