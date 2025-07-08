@@ -3,12 +3,14 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Produto } from '../../models/produto.model';
+import { ProdutoServiceService } from '../../service/produto-service.service';
 
 interface EntradaData {
   sku: number;
   nome: string;
   quantidade: number;
   produtos?: Produto[];
+  atualizarLista?: () => void;
 }
 
 @Component({
@@ -23,7 +25,8 @@ export class EntradaComponent {
 
   constructor(
     public dialogRef: MatDialogRef<EntradaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EntradaData
+    @Inject(MAT_DIALOG_DATA) public data: EntradaData,
+    private produtoService: ProdutoServiceService
   ) {
     // Inicializar data se não fornecida
     if (!this.data) {
@@ -66,16 +69,38 @@ export class EntradaComponent {
       return;
     }
 
-    // Processar a entrada sem fechar o diálogo
-    const produto = this.produtos.find(p => p.sku === this.data.sku);
-    if (produto) {
-      produto.quantidade += this.data.quantidade;
-      alert(`Entrada de ${this.data.quantidade} unidades do produto "${this.data.nome}" registrada com sucesso!`);
 
-      // Limpar os campos para próxima entrada
-      this.data.sku = 0;
-      this.data.nome = '';
-      this.data.quantidade = 0;
-    }
+    this.produtoService.entradaProduto(this.data.sku, this.data.quantidade).subscribe({
+
+      next: () => {
+
+        if (this.data.atualizarLista) {
+        this.data.atualizarLista();
+        }
+
+        this.data.sku = 0;
+        this.data.nome = '';
+        this.data.quantidade = 0;
+
+      },
+      error: (err) => {
+
+        alert('Erro ao registrar entrada: ' + (err.error || err.message));
+
+      }
+
+    });
+
+    // Processar a entrada sem fechar o diálogo
+    // const produto = this.produtos.find(p => p.sku === this.data.sku);
+    // if (produto) {
+    //   produto.quantidade += this.data.quantidade;
+    //   alert(`Entrada de ${this.data.quantidade} unidades do produto "${this.data.nome}" registrada com sucesso!`);
+
+    //   // Limpar os campos para próxima entrada
+    //   this.data.sku = 0;
+    //   this.data.nome = '';
+    //   this.data.quantidade = 0;
+    // }
   }
 }

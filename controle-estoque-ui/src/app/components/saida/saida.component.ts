@@ -3,12 +3,14 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Produto } from '../../models/produto.model';
+import { ProdutoServiceService } from '../../service/produto-service.service';
 
 interface SaidaData {
   sku: number;
   nome: string;
   quantidade: number;
   produtos?: Produto[];
+  atualizarLista?: () => void;
 }
 
 @Component({
@@ -23,7 +25,8 @@ export class SaidaComponent {
 
   constructor(
     public dialogRef: MatDialogRef<SaidaComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: SaidaData
+    @Inject(MAT_DIALOG_DATA) public data: SaidaData,
+    private produtoService: ProdutoServiceService
   ) {
     // Inicializar data se não fornecida
     if (!this.data) {
@@ -68,20 +71,41 @@ export class SaidaComponent {
 
     // Verificar se há estoque suficiente
     const produto = this.produtos.find(p => p.sku === this.data.sku);
-    if (produto && this.data.quantidade > produto.quantidade) {
+    if (produto && this.data.quantidade > (produto.quantidade ?? 0)) {
       alert(`Estoque insuficiente. Disponível: ${produto.quantidade}`);
       return;
     }
 
-    // Processar a saída sem fechar o diálogo
-    if (produto) {
-      produto.quantidade -= this.data.quantidade;
-      alert(`Saída de ${this.data.quantidade} unidades do produto "${this.data.nome}" registrada com sucesso!`);
+    this.produtoService.saidaProduto(this.data.sku, this.data.quantidade).subscribe({
 
-      // Limpar os campos para próxima saída
-      this.data.sku = 0;
-      this.data.nome = '';
-      this.data.quantidade = 0;
-    }
+        next: () => {
+
+          if(this.data.atualizarLista) {
+            this.data.atualizarLista();
+          }
+
+          this.data.sku = 0;
+          this.data.nome = '';
+          this.data.quantidade = 0;
+
+        },
+        error: (err) => {
+
+          alert('Erro ao registrar entrada: ' + (err.error || err.message));
+
+        }
+
+    });
+
+    // // Processar a saída sem fechar o diálogo
+    // if (produto) {
+    //   produto.quantidade -= this.data.quantidade;
+    //   alert(`Saída de ${this.data.quantidade} unidades do produto "${this.data.nome}" registrada com sucesso!`);
+
+    //   // Limpar os campos para próxima saída
+    //   this.data.sku = 0;
+    //   this.data.nome = '';
+    //   this.data.quantidade = 0;
+    // }
   }
 }

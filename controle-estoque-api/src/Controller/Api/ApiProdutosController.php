@@ -3,6 +3,7 @@
     namespace App\Controller\Api;
 
     use App\Entity\ProdutosEntity;
+    use App\Entity\MovimentacoesEntity;
     use Doctrine\ORM\EntityManagerInterface;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\JsonResponse;
@@ -37,10 +38,11 @@
         }
 
         #[Route("/cadastrar", name: "cadastrar", methods: ["POST"])]
-        public function cadastrar(EntityManagerInterface $entityManager, Request $request): Response
+        public function cadastrar(EntityManagerInterface $entityManager, Request $request): JsonResponse
         {
 
             $data = $request->request->all();
+            $data = json_decode($request->getContent(), true);
 
             $produto = new ProdutosEntity();
             $produto->setSku($data['sku']);
@@ -50,35 +52,35 @@
             $produto->setPrecoVenda($data['precoVenda']);
 
             if(empty($produto->getSku()) || empty($produto->getNome()) || empty($produto->getPrecoCompra()) || empty($produto->getPrecoVenda())){
-                return new Response("Os campo devem ser preenchidos!", 400);
+                return new JsonResponse("Os campo devem ser preenchidos!", 400);
             }
 
             $sku = $this->obterSku($data['sku'], $entityManager);
 
             if ($sku) {
-                return new Response("SKU já cadastrado!", 400);
+                return new JsonResponse("SKU já cadastrado!", 400);
             }
 
             if($produto->getPrecoCompra() < 0 || $produto->getPrecoVenda() < 0)
             {
-                return new Response("O preço não pode ser negativo", 400);
+                return new JsonResponse("O preço não pode ser negativo", 400);
             }
 
             if($produto->getPrecoCompra() > $produto->getPrecoVenda())
             {
-                return new Response("O preço de compra não pode ser maior que o de venda", 400);
+                return new JsonResponse("O preço de compra não pode ser maior que o de venda", 400);
 
             }
 
             $entityManager->persist($produto);
             $entityManager->flush();
 
-            return new Response("Produto cadastrado com sucesso", 200);
+            return new JsonResponse("Produto cadastrado com sucesso", 200);
 
         }
 
         #[Route("/editar/{sku}", name: "editar", methods: ["PUT"])]
-        public function editar(int $sku, Request $request, EntityManagerInterface $entityManager) : Response
+        public function editar(int $sku, Request $request, EntityManagerInterface $entityManager) : JsonResponse
         {
 
             $produto = $this->obterSku($sku, $entityManager);
@@ -86,7 +88,7 @@
             if(empty($produto))
             {
 
-                return new Response("Produto não encontrado!", 404);
+                return new JsonResponse("Produto não encontrado!", 404);
 
             }
 
@@ -122,19 +124,19 @@
 
             $entityManager->flush();
 
-            return new Response("Produto editado com sucesso", 200);
+            return new JsonResponse("Produto editado com sucesso", 200);
 
         }
 
         #[Route("/entrada/{sku}", name: "entrada", methods: ["PUT"])]
-        public function entradaProduto(int $sku, Request $request, EntityManagerInterface $entityManager): Response
+        public function entradaProduto(int $sku, Request $request, EntityManagerInterface $entityManager): JsonResponse
         {
 
            $produto = $this->obterSku($sku, $entityManager);
 
            if(empty($produto)){
 
-            return new Response("Produto não encontrado!", 404);
+            return new JsonResponse(['error' => 'Produto não encontrado!'], 404);
 
            }
 
@@ -145,16 +147,25 @@
 
                 $produto->setQuantidade($produto->getQuantidade() + $data['quantidade']);
 
+                $movimentacao = new MovimentacoesEntity();
+                $movimentacao->setProduto($produto);
+                $movimentacao->setNome($produto->getNome());
+                $movimentacao->setTipo('entrada');
+                $movimentacao->setQuantidade($data['quantidade']);
+                $movimentacao->setDataHora(new \DateTime());
+
+                $entityManager->persist($movimentacao);
+
            }
 
            $entityManager->flush();
 
-           return new Response("Entrada realizada com sucesso", 200);
+           return new JsonResponse(['message' => 'Entrada realizada com sucesso'], 200);
 
         }
 
         #[Route("/saida/{sku}", name: "saida", methods: ["PUT"])]
-        public function saidaProduto(int $sku, Request $request, EntityManagerInterface $entityManager): Response
+        public function saidaProduto(int $sku, Request $request, EntityManagerInterface $entityManager): JsonResponse
         {
 
 
@@ -163,7 +174,7 @@
             if(empty($produto))
             {
 
-                return new Response("Produto não encontrado!", 404);
+                return new JsonResponse(['error' => 'Produto não encontrado!'], 404);
 
             }
 
@@ -174,30 +185,37 @@
 
                 $produto->setQuantidade($produto->getQuantidade() - $data['quantidade']);
 
+                $movimentacao = new MovimentacoesEntity();
+                $movimentacao->setProduto($produto);
+                $movimentacao->setNome($produto->getNome());
+                $movimentacao->setTipo('saida');
+                $movimentacao->setQuantidade($data['quantidade']);
+                $movimentacao->setDataHora(new \DateTime());
+
+                $entityManager->persist($movimentacao);
+
             }
 
             if($produto->getQuantidade() < 0)
             {
-
-                return new Response("Quantidade não pode ser negativa", 400);
-
+                return new JsonResponse(['error' => 'Quantidade não pode ser negativa'], 404);
             }
 
             $entityManager->flush();
 
-            return new Response("Saida realizada com sucesso", 200);
+            return new JsonResponse(['message' => 'Saida realizada com sucesso'], 200);
 
         }
 
         #[Route("/deletar/{sku}", name: "deletar", methods: ["DELETE"])]
-        public function deletar(int $sku, EntityManagerInterface $entityManager): Response
+        public function deletar(int $sku, EntityManagerInterface $entityManager): JsonResponse
         {
 
             $produto = $this->obterSku($sku, $entityManager);
 
             if(!$produto) {
 
-                return new Response("Produto não encontrado!", 404);
+                return new JsonResponse("Produto não encontrado!", 404);
 
             }
 
@@ -205,7 +223,7 @@
 
             $entityManager->flush();
 
-            return new Response("Produto deletado com sucesso", 200);
+            return new JsonResponse("Produto deletado com sucesso", 200);
 
         }
 

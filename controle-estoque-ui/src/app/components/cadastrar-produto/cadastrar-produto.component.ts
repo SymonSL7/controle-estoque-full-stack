@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { Produto } from '../../models/produto.model';
+import { ProdutoServiceService } from '../../service/produto-service.service';
 
 interface CadastroData {
   sku: number;
@@ -21,7 +22,8 @@ export class CadastrarProdutoComponent {
 
   constructor(
     public dialogRef: MatDialogRef<CadastrarProdutoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CadastroData
+    @Inject(MAT_DIALOG_DATA) public data: CadastroData,
+    private produtoService: ProdutoServiceService
   ) {
     // Inicializar data se não fornecida
     if (!this.data) {
@@ -60,6 +62,22 @@ export class CadastrarProdutoComponent {
       precoVenda: this.data.precoVenda
     };
 
-    this.dialogRef.close(produto);
+    this.produtoService.cadastrarProduto(produto.sku, produto.nome, produto.precoCompra, produto.precoVenda).subscribe({
+
+      next: () => {
+
+        alert('Produto cadastrado com sucesso!');
+        this.dialogRef.close(produto);
+
+      },
+      error: (err) => {
+
+        alert('Erro ao registrar entrada: ' + (err.error || err.message));
+
+      }
+
+    });
+
+    //this.dialogRef.close(produto);
   }
 }

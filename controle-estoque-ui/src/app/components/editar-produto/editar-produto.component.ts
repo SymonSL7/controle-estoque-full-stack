@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { Produto } from '../../models/produto.model';
+import { ProdutoServiceService } from '../../service/produto-service.service';
 
 @Component({
   selector: 'app-editar-produto',
@@ -24,12 +25,15 @@ import { Produto } from '../../models/produto.model';
 })
 export class EditarProdutoComponent {
   produto: Produto;
+  skuAntigo: number;
 
   constructor(
     public dialogRef: MatDialogRef<EditarProdutoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Produto
+    @Inject(MAT_DIALOG_DATA) public data: Produto,
+    private produtoService: ProdutoServiceService
   ) {
     this.produto = { ...data };
+    this.skuAntigo = data.sku;
   }
 
   onCancel(): void {
@@ -37,8 +41,32 @@ export class EditarProdutoComponent {
   }
 
   onSave(): void {
+
+    const produtoEditado = {
+      sku: this.produto.sku,
+      nome: this.produto.nome,
+      precoCompra: this.produto.precoCompra,
+      precoVenda: this.produto.precoVenda
+    };
+
     if (this.validarFormulario()) {
-      this.dialogRef.close(this.produto);
+
+      this.produtoService.editarProduto(this.skuAntigo, produtoEditado.sku, produtoEditado.nome, produtoEditado.precoCompra, produtoEditado.precoVenda).subscribe({
+
+        next:() => {
+          alert('Produto editado com sucesso!');
+          this.dialogRef.close(produtoEditado);
+
+        },
+        error: (err) => {
+
+          alert('Erro ao registrar entrada: ' + (err.error || err.message));
+
+        }
+
+      })
+
+
     }
   }
 

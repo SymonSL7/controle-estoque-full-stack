@@ -1,6 +1,8 @@
 <div class="container">
   <h2>ENTRADA</h2>
+
   <form>
+
     <div class="form-group">
       <label for="sku">SKU:</label>
       <input id="sku" type="number" [(ngModel)]="data.sku" (ngModelChange)="buscarProdutoPorSku()" name="sku" placeholder="Digite o SKU do produto">
@@ -19,7 +21,7 @@
 
   <div class="container_button">
     <button (click)="onNoClick()">Cancelar</button>
-    <button (click)="onSalvar()">Salvar</button>
+    <button type="button" (click)="onSalvar()">Salvar</button>
   </div>
 </div>
 

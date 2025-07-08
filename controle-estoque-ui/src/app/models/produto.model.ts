@@ -1,7 +1,7 @@
 export interface Produto {
   sku: number;
   nome: string;
-  quantidade: number;
+  quantidade?: number;
   precoCompra: number;
   precoVenda: number;
 }

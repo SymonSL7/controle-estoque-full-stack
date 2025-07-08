@@ -26,7 +26,7 @@
         <tr *ngFor="let produto of produtos"
             class="produto-row"
             [ngClass]="{
-              'estoque-baixo': produto.quantidade <= 5 && produto.quantidade > 0,
+              'estoque-baixo': (produto.quantidade ?? 0) <= 5 && (produto.quantidade ?? 0) > 0,
               'estoque-zero': produto.quantidade === 0
             }">
           <td>{{ produto.sku }}</td>

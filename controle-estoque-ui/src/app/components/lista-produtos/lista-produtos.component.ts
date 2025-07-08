@@ -13,6 +13,8 @@ import { EditarProdutoComponent } from '../editar-produto/editar-produto.compone
 import { CommonModule } from '@angular/common';
 
 import { Produto } from '../../models/produto.model';
+import { ProdutoServiceService } from '../../service/produto-service.service';
+
 
 
 @Component({
@@ -29,9 +31,21 @@ export class ListaProdutosComponent {
 
 
 
-  constructor(private dialog: MatDialog){}
+  constructor(private dialog: MatDialog, private produtoService: ProdutoServiceService){}
 
-  // Método para ordenar produtos por SKU (menor para maior)
+  ngOnInit(): void {
+
+    this.produtoService.listarProduto().subscribe(produtos => {
+
+      this.produtos = produtos;
+
+      this.ordenarProdutosPorSku();
+
+    })
+
+  }
+
+
   ordenarProdutosPorSku(): void {
     this.produtos.sort((a, b) => a.sku - b.sku);
   }
@@ -51,7 +65,7 @@ export class ListaProdutosComponent {
         // Ordenar a lista após adicionar o produto
         this.ordenarProdutosPorSku();
         console.log('Produto cadastrado:', result);
-        alert(`Produto "${result.nome}" foi cadastrado com sucesso!`);
+        //alert(`Produto "${result.nome}" foi cadastrado com sucesso!`);
       }
     });
 
@@ -67,15 +81,26 @@ export class ListaProdutosComponent {
         sku: '',
         nome: '',
         quantidade: '',
-        produtos: this.produtos
+        produtos: this.produtos,
+        atualizarLista: () => {
+        this.produtoService.listarProduto().subscribe(produtos => {
+          this.produtos = produtos;
+          this.ordenarProdutosPorSku();
+        });
+      }
       },
       disableClose: false
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      // Ordenar a lista quando o diálogo for fechado
-      this.ordenarProdutosPorSku();
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   // Ordenar a lista quando o diálogo for fechado
+    //   this.produtoService.listarProduto().subscribe(produtos => {
+    //     this.produtos = produtos;
+    //     this.ordenarProdutosPorSku();
+    //   });
+
+    // });
+
   }
 
 
@@ -88,15 +113,22 @@ export class ListaProdutosComponent {
         sku: '',
         nome: '',
         quantidade: '',
-        produtos: this.produtos
+        produtos: this.produtos,
+                atualizarLista: () => {
+        this.produtoService.listarProduto().subscribe(produtos => {
+          this.produtos = produtos;
+          this.ordenarProdutosPorSku();
+        });
+      }
       },
       disableClose: false
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      // Ordenar a lista quando o diálogo for fechado
-      this.ordenarProdutosPorSku();
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   // Ordenar a lista quando o diálogo for fechado
+    //   this.ordenarProdutosPorSku();
+    // });
+
   }
 
   editarProduto(produto: Produto): void {
@@ -108,13 +140,11 @@ export class ListaProdutosComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Atualizar o produto na lista
-        const index = this.produtos.findIndex(p => p.sku === produto.sku);
-        if (index !== -1) {
-          this.produtos[index] = result;
-          // Ordenar a lista após editar o produto
+        // Buscar a lista atualizada do backend
+        this.produtoService.listarProduto().subscribe(produtos => {
+          this.produtos = produtos;
           this.ordenarProdutosPorSku();
-        }
+        });
         console.log('Produto editado:', result);
       }
     });
@@ -124,14 +154,19 @@ export class ListaProdutosComponent {
     const confirmacao = confirm(`Tem certeza que deseja excluir o produto "${produto.nome}"?\n\nEsta ação não pode ser desfeita.`);
 
     if (confirmacao) {
-      const index = this.produtos.findIndex(p => p.sku === produto.sku);
-      if (index !== -1) {
-        this.produtos.splice(index, 1);
-        // Ordenar a lista após excluir o produto
-        this.ordenarProdutosPorSku();
-        console.log('Produto excluído:', produto);
-        alert(`Produto "${produto.nome}" foi excluído com sucesso!`);
-      }
+      this.produtoService.excluirProduto(produto.sku).subscribe({
+
+        next: () => {
+
+          this.produtos = this.produtos.filter(p => p.sku !== produto.sku);
+          this.ordenarProdutosPorSku();
+
+        },
+        error: (err) => {
+          alert('Erro ao excluir produto: ' + (err.error || err.message));
+        }
+
+      })
     }
   }
 

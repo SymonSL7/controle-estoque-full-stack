@@ -18,5 +18,4 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent {
   title = 'controle-estoque-ui';
-  produtos = dataFake;
 }
