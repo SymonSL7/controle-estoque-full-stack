@@ -9,15 +9,15 @@
 <h1>Descrição de Projeto:</h1>
 <p> 
 
-Descrição do Projeto: Sistema de Controle de Estoque
+<h3>Sistema de Controle de Estoque</h3>
 
 Este projeto é um sistema de gerenciamento de estoque desenvolvido para garantir alta rastreabilidade e integridade dos dados. Suas funcionalidades centrais são:
 
-Gerenciamento de Produtos: Permite o ciclo completo de operações de cadastro, edição e exclusão de itens.
+<strong>Gerenciamento de Produtos:</strong> Permite o ciclo completo de operações de cadastro, edição e exclusão de itens.
 
-Controle de Estoque Dinâmico: A quantidade de cada produto é controlada unicamente por operações de entrada e saída. O estoque inicial é sempre zero e sua edição direta não é permitida, assegurando que o saldo seja sempre um reflexo das movimentações.
+<strong>Controle de Estoque Dinâmico:</strong> A quantidade de cada produto é controlada unicamente por operações de entrada e saída. O estoque inicial é sempre zero e sua edição direta não é permitida, assegurando que o saldo seja sempre um reflexo das movimentações.
 
-Histórico de Movimentações: Cada operação de entrada ou saída é permanentemente registrada na tabela "movimentações" do banco de dados. Isso cria um log detalhado e auditável de todo o fluxo de estoque, embora a aplicação não possua uma funcionalidade de geração de relatórios para o usuário final.
+<strong>Histórico de Movimentações:</strong> Cada operação de entrada ou saída é permanentemente registrada na tabela "movimentações" do banco de dados. Isso cria um log detalhado e auditável de todo o fluxo de estoque, embora a aplicação não possua uma funcionalidade de geração de relatórios para o usuário final.
 
 Arquitetura e Tecnologias:
 
