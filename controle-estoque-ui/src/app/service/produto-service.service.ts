@@ -18,15 +18,13 @@ export class ProdutoServiceService {
   ) {
     if (isPlatformBrowser(this.platformId)) {
       const host = window.location.hostname;
-      if (host === 'localhost' || host === '127.0.0.1') {
-        this.apiUrl = 'http://localhost:8000/api/v1';
-      } else if (host.endsWith('.devtunnels.ms')) {
-        this.apiUrl = 'https://00tr1trn-8000.brs.devtunnels.ms/api/v1';
-      } else if (host.endsWith('.app.github.dev')) {
-        this.apiUrl = 'https://upgraded-capybara-g45pvrgwwvvwcwq9-8000.app.github.dev/api/v1';
-      } else {
-        this.apiUrl = 'http://192.168.0.10:8000/api/v1'; // Substitua pelo IP do backend
-      }
+    if (host === 'localhost' || host === '127.0.0.1') {
+      this.apiUrl = 'http://localhost:8000/api/v1';
+    } else if (host.endsWith('.devtunnels.ms')) {
+      this.apiUrl = 'https://00tr1trn-8000.brs.devtunnels.ms/api/v1';
+    } else {
+      this.apiUrl = 'http://192.168.0.10:8000/api/v1'; // Substitua pelo IP do backend
+    }
     } else {
       // SSR: defina um valor padrão ou trate de outra forma
       this.apiUrl = 'http://localhost:8000/api/v1';
