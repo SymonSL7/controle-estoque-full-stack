@@ -1,3 +1,8 @@
+.container {
+  min-height: auto;
+  /* ...restante do seu CSS... */
+}
+
 .container__lista-produtos {
   display: flex;
   flex-direction: column;

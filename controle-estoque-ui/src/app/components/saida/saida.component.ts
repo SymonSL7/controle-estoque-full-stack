@@ -8,6 +8,7 @@ import { ProdutoServiceService } from '../../service/produto-service.service';
 interface SaidaData {
   sku: number;
   nome: string;
+  quantidadeAtual: number;
   quantidade: number;
   produtos?: Produto[];
   atualizarLista?: () => void;
@@ -33,6 +34,7 @@ export class SaidaComponent {
       this.data = {
         sku: 0,
         nome: '',
+        quantidadeAtual: 0,
         quantidade: 0
       };
     }
@@ -53,6 +55,7 @@ export class SaidaComponent {
 
     if (produto) {
       this.data.nome = produto.nome;
+      this.data.quantidadeAtual = produto.quantidade ?? 0;
     } else {
       this.data.nome = '';
     }
@@ -84,8 +87,13 @@ export class SaidaComponent {
             this.data.atualizarLista();
           }
 
+          this.produtoService.listarProduto().subscribe(produtosAtualizados => {
+            this.produtos = produtosAtualizados;
+          });
+
           this.data.sku = 0;
           this.data.nome = '';
+          this.data.quantidadeAtual = 0;
           this.data.quantidade = 0;
 
         },

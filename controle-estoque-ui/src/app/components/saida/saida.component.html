@@ -12,6 +12,11 @@
     </div>
 
     <div class="form-group">
+      <label for="quantidadeAtual">QUANTIDADE ATUAL:</label>
+      <input id="quantidadeAtual" type="text" [(ngModel)]="data.quantidadeAtual" name="quantidadeAtual" readonly placeholder="Quantidade atual (preenchido automaticamente)">
+    </div>
+
+    <div class="form-group">
       <label for="quantidade">QUANTIDADE:</label>
       <input id="quantidade" type="number" [(ngModel)]="data.quantidade" name="quantidade" placeholder="Digite a quantidade" min="1">
     </div>
