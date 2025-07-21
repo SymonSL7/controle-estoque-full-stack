@@ -14,7 +14,7 @@ class MovimentacoesEntity
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: ProdutosEntity::class)]
-    #[ORM\JoinColumn(name: "produto_sku", referencedColumnName: "sku", nullable: false)]
+    #[ORM\JoinColumn(name: "produto_sku", referencedColumnName: "sku", nullable: false, onDelete: "CASCADE")]
     private ?ProdutosEntity $produto = null;
 
     #[ORM\Column(length: 255)]

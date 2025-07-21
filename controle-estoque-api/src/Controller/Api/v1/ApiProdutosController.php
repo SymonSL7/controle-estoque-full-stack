@@ -215,7 +215,13 @@
 
             if(!$produto) {
 
-                return new JsonResponse("Produto não encontrado!", 404);
+                return new JsonResponse(['error' => 'Produto não encontrado!'], 404);
+
+            }
+
+            if($produto->getQuantidade() > 0) {
+
+                return new JsonResponse(['error' => 'Só é possível excluir produtos com quantidade igual a zero.'], 400);
 
             }
 
@@ -223,7 +229,7 @@
 
             $entityManager->flush();
 
-            return new JsonResponse("Produto deletado com sucesso", 200);
+            return new JsonResponse(['message' => 'Produto deletado com sucesso'], 200);
 
         }
 

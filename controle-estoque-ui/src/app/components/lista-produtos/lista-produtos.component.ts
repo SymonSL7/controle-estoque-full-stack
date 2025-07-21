@@ -163,7 +163,15 @@ export class ListaProdutosComponent {
 
         },
         error: (err) => {
-          alert('Erro ao excluir produto: ' + (err.error || err.message));
+          if (err.error && typeof err.error === 'object' && err.error.error) {
+            alert('Erro ao excluir produto: ' + err.error.error);
+          } else if (typeof err.error === 'string') {
+            alert('Erro ao excluir produto: ' + err.error);
+          } else if (err.message) {
+            alert('Erro ao excluir produto: ' + err.message);
+          } else {
+            alert('Erro ao excluir produto: Erro desconhecido');
+          }
         }
 
       })

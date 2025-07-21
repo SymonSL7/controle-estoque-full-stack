@@ -6,10 +6,10 @@ import { Produto } from '../../models/produto.model';
 import { ProdutoServiceService } from '../../service/produto-service.service';
 
 interface EntradaData {
-  sku: number;
+  sku: number | null;
   nome: string;
   quantidadeAtual: number;
-  quantidade: number;
+  quantidade: number | null;
   produtos?: Produto[];
   atualizarLista?: () => void;
 }
@@ -72,6 +72,7 @@ export class EntradaComponent {
       return;
     }
 
+    const skuAnterior = this.data.sku;
 
     this.produtoService.entradaProduto(this.data.sku, this.data.quantidade).subscribe({
 
@@ -83,12 +84,18 @@ export class EntradaComponent {
 
         this.produtoService.listarProduto().subscribe(produtosAtualizados => {
           this.produtos = produtosAtualizados;
+
+          const produtoAtualizado = this.produtos.find(p => p.sku === skuAnterior);
+          if (produtoAtualizado) {
+            this.data.quantidadeAtual = produtoAtualizado.quantidade ?? 0;
+          } else {
+            this.data.quantidadeAtual = 0;
+          }
+
         });
 
-        this.data.sku = 0;
-        this.data.nome = '';
-        this.data.quantidadeAtual = 0;
-        this.data.quantidade = 0;
+        this.data.sku = null;
+        this.data.quantidade = null;
 
       },
       error: (err) => {
