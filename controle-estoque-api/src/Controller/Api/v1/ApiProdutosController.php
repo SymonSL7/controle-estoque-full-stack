@@ -148,7 +148,7 @@
                 $produto->setQuantidade($produto->getQuantidade() + $data['quantidade']);
 
                 $movimentacao = new MovimentacoesEntity();
-                $movimentacao->setProduto($produto);
+                $movimentacao->setProdutoSku($produto->getSku());
                 $movimentacao->setNome($produto->getNome());
                 $movimentacao->setTipo('entrada');
                 $movimentacao->setQuantidade($data['quantidade']);
@@ -186,7 +186,7 @@
                 $produto->setQuantidade($produto->getQuantidade() - $data['quantidade']);
 
                 $movimentacao = new MovimentacoesEntity();
-                $movimentacao->setProduto($produto);
+                $movimentacao->setProdutoSku($produto->getSku());
                 $movimentacao->setNome($produto->getNome());
                 $movimentacao->setTipo('saida');
                 $movimentacao->setQuantidade($data['quantidade']);

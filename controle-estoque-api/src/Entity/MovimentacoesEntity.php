@@ -13,9 +13,8 @@ class MovimentacoesEntity
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: ProdutosEntity::class)]
-    #[ORM\JoinColumn(name: "produto_sku", referencedColumnName: "sku", nullable: false, onDelete: "CASCADE")]
-    private ?ProdutosEntity $produto = null;
+    #[ORM\Column(type: 'integer')]
+    private ?int $produtoSku = null;
 
     #[ORM\Column(length: 255)]
     private ?string $nome = null;
@@ -34,14 +33,14 @@ class MovimentacoesEntity
         return $this->id;
     }
 
-    public function getProduto(): ?ProdutosEntity
+    public function getProdutoSku(): ?int
     {
-        return $this->produto;
+        return $this->produtoSku;
     }
 
-    public function setProduto(ProdutosEntity $produto): static
+    public function setProdutoSku(int $sku): static
     {
-        $this->produto = $produto;
+        $this->produtoSku = $sku;
         return $this;
     }
 
